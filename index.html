@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Client-Server JS</title>
+  </head>
+  <body>
+    <div id="wordToGuess"></div>
+    <div id="score"></div>
+    <div id="highScoreForm">
+      <form>
+        <input type="hidden" id="scoreInput"/>
+        <input type="text" name="playerName"/>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <script>
+      const elWordToGuess = document.getElementById('wordToGuess')
+      const elScore = document.getElementById('score')
+      const elScoreInput = document.getElementById('scoreInput')
+
+      let correctGuess = [];
+      let wordToGuess = ''
+      let score = 100
+
+      function startGame(word){
+        score = 100;
+        correctGuess = [];
+        wordToGuess = word
+        renderWord()
+      }
+
+      function renderWord(){
+        let wordToDisplay = ''
+        let hasUnguessedLetter = false;
+
+        for(let i=0;i<wordToGuess.length;i++){
+          if(correctGuess.includes(wordToGuess[i])){
+              wordToDisplay += wordToGuess[i];
+          }
+          else{
+              hasUnguessedLetter = true;
+              wordToDisplay += '_'
+          }
+        }
+
+        elWordToGuess.innerHTML = wordToDisplay
+        elScore.innerHTML = score
+
+        if( !hasUnguessedLetter ){
+            console.log('YOU WIN')
+            elScoreInput.value = score
+                // OK, win.
+        }
+        else if(score <= 0){
+            startGame('TRUCK')
+                // game over
+        }
+      }
+
+      function onKeyPress(e){
+        if( wordToGuess.includes(e.key.toUpperCase()) ){
+          correctGuess.push(e.key.toUpperCase())
+        }else{
+          score -= 20;
+        }
+        renderWord()
+      }
+
+      document.addEventListener('keyup', onKeyPress)
+
+      startGame('HOUSE')
+    </script>
+  </body>
+</html>
