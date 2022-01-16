@@ -5,7 +5,8 @@
   <body>
     <div id="wordToGuess"></div>
     <div id="score"></div>
-    <div id="highScoreForm">
+    <div id="highScoreForm" style="display: none;">
+      <p id="message"></p>
       <form>
         <input type="hidden" id="scoreInput"/>
         <input type="text" name="playerName"/>
@@ -15,7 +16,9 @@
     <script>
       const elWordToGuess = document.getElementById('wordToGuess')
       const elScore = document.getElementById('score')
+      const elHighScoreForm = document.getElementById('highScoreForm')
       const elScoreInput = document.getElementById('scoreInput')
+      const elMessage = document.getElementById('message')
 
       let correctGuess = [];
       let wordToGuess = ''
@@ -47,7 +50,9 @@
 
         if( !hasUnguessedLetter ){
             console.log('YOU WIN')
+            elMessage.innerText = `You won! Your score is ${score}`
             elScoreInput.value = score
+            elHighScoreForm.style.display = 'block';
                 // OK, win.
         }
         else if(score <= 0){
